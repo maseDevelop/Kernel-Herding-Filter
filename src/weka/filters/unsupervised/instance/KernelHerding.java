@@ -133,22 +133,24 @@ public class KernelHerding extends SimpleBatchFilter {
 
             //Getting initial value for subset array - FIRST INSTANCE in array
             newIstanceIndex.add(currentMaxIndex);
+
+
             //Setting current sum for part 2 of the equation
-            currentSum = currentMaxValue;
+            //currentSum = currentMaxValue;
 
             //Creating new instance to feed return
             Instances newInstances = new Instances(instances,currentMaxIndex,1);
 
-            /*(for (int i = 0; i < newInstances.size(); i++) {
-                System.out.println( newInstances.instance(i));
-            }*/
+            for (int i = 0; i < newInstances.size(); i++) {
+                System.out.println("subset: " + newInstances.instance(i));
+            }
             //System.out.println("-----------------------------------------");
 
             //int count = 2; //Already add an instance before the loop is iterated over
             int count = 2; //Already add an instance before the loop is iterated over
 
             //Building subset with Kernel Herding Equation starting at subset -1 as already added first element
-            while(count < subsetSize) {//Might not work when 8.88%
+            while(count <= subsetSize) {//Might not work when 8.88%
 
                 currentMaxIndex = 0;
                 currentMaxValue = 0;
@@ -172,6 +174,8 @@ public class KernelHerding extends SimpleBatchFilter {
                     }
                 }
 
+
+
                 newInstances.add(instances.instance(currentMaxIndex));
 
                 newIstanceIndex.add(currentMaxIndex); //Adding the max value to subset array
@@ -183,7 +187,10 @@ public class KernelHerding extends SimpleBatchFilter {
             for (int i = 0; i < newInstances.size(); i++) {
                 System.out.println(newIstanceIndex.get(i));
             }
+            System.out.println("size of new subset: " + newInstances.size());
             System.out.println("------------------------------");
+
+
 
             //m_Kernel.clean();//Should I do this
             return newInstances;
