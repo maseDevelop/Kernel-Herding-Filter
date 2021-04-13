@@ -7,7 +7,7 @@ import weka.core.Instances;
 import weka.core.OptionMetadata;
 import weka.filters.SimpleBatchFilter;
 
-import java.util.ArrayList;
+import java.util.*;
 
 public class KernelHerding extends SimpleBatchFilter {
 
@@ -104,11 +104,19 @@ public class KernelHerding extends SimpleBatchFilter {
                     //Calling kernel function and storing scalar output
                     outputVal += m_Kernel.eval(i,j,instances.instance(i));
 
+                    if(i == j){
+                        outputVal -= m_Kernel.eval(i,j,instances.instance(i));
+                    }
+
 
                 }
 
                 //Subtracting the values of evaling an instance by and instance i.e. instance 0 and instance 0
-                outputVal -= 1.0;
+                //outputVal -= 1.0;
+
+
+
+
 
                 //Getting the expected value of the sum and storing it
                 similarityToOtherArray[i] = outputVal/instances.size();
@@ -141,16 +149,16 @@ public class KernelHerding extends SimpleBatchFilter {
             //Creating new instance to feed return
             Instances newInstances = new Instances(instances,currentMaxIndex,1);
 
-            for (int i = 0; i < newInstances.size(); i++) {
+            /*for (int i = 0; i < newInstances.size(); i++) {
                 System.out.println("subset: " + newInstances.instance(i));
-            }
+            }*/
             //System.out.println("-----------------------------------------");
 
             //int count = 2; //Already add an instance before the loop is iterated over
             int count = 2; //Already add an instance before the loop is iterated over
-
+            boolean isInArr  = false;
             //Building subset with Kernel Herding Equation starting at subset -1 as already added first element
-            while(count <= subsetSize) {//Might not work when 8.88%
+            while(count <= (int)subsetSize) {//Might not work when 8.88%
 
                 currentMaxIndex = 0;
                 currentMaxValue = 0;
@@ -158,28 +166,51 @@ public class KernelHerding extends SimpleBatchFilter {
                 //Going through each element in the array
                 for (int j = 0; j < similarityToOtherArray.length; j++) {
 
-                    similarityToOtherSamples[j] += m_Kernel.eval(j,(int)newIstanceIndex.get(newIstanceIndex.size()-1),instances.instance(j));
+                        //System.out.println("size" + (newIstanceIndex.size()-1));
+                        //System.out.println("similarity to other: " + similarityToOtherSamples[j]);
 
-                    //Taking the average of the second part of the function
-                    //scalar = similarityToOtherSamples[j]/(newIstanceIndex.size() + 1);
-                    scalar = similarityToOtherSamples[j]/(newIstanceIndex.size() + 1);
+                        //similarityToOtherSamples[j] += m_Kernel.eval(j,(int)newIstanceIndex.get(newIstanceIndex.size()-1),instances.instance(j));
+                        similarityToOtherSamples[j] += m_Kernel.eval(j, (int) newIstanceIndex.get(newIstanceIndex.size() - 1), instances.instance(j));
 
-                    //Executing the full function
-                    currentSum  = similarityToOtherArray[j] - scalar;
 
-                    //Checking if it is the max value
-                    if(currentSum > currentMaxValue){
-                        currentMaxValue = currentSum;
-                        currentMaxIndex = j;//Setting index of the current max value
+
+                        //System.out.println("K: " +m_Kernel.eval(j,(int)newIstanceIndex.get(newIstanceIndex.size()-1),instances.instance(j)));
+
+                        //System.out.println("similarity to other2: " + similarityToOtherSamples[j]);
+                        //System.out.println("value kernel: " + m_Kernel.eval(j,(int)newIstanceIndex.get(newIstanceIndex.size()-1),instances.instance(j)));
+
+                        //Taking the average of the second part of the function
+                        //scalar = similarityToOtherSamples[j]/(newIstanceIndex.size() + 1);
+                        scalar = similarityToOtherSamples[j] / (newIstanceIndex.size() + 1);
+
+                        //Executing the full function
+                        currentSum = similarityToOtherArray[j] - scalar;
+
+                        //Checking if it is the max value
+                        if (currentSum > currentMaxValue) {
+
+                            currentMaxValue = currentSum;
+                            currentMaxIndex = j;//Setting index of the current max value
+                        }
                     }
-                }
 
 
+                            newIstanceIndex.add(currentMaxIndex); //Adding the max value to subset array
+                            newInstances.add(instances.instance(currentMaxIndex));
 
-                newInstances.add(instances.instance(currentMaxIndex));
 
-                newIstanceIndex.add(currentMaxIndex); //Adding the max value to subset array
                 count++;
+
+
+
+
+
+
+
+
+
+
+
             }
 
             System.out.println("------------------------------");
@@ -193,6 +224,7 @@ public class KernelHerding extends SimpleBatchFilter {
 
 
             //m_Kernel.clean();//Should I do this
+            //this.m_FirstBatchDone = true;
             return newInstances;
 
         }
