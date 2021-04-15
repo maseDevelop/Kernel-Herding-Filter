@@ -104,15 +104,11 @@ public class KernelHerding extends SimpleBatchFilter {
                     //Calling kernel function and storing scalar output
                     outputVal += m_Kernel.eval(i,j,instances.instance(i));
 
-                    if(i == j){
-                        outputVal -= m_Kernel.eval(i,j,instances.instance(i));
-                    }
-
 
                 }
 
                 //Subtracting the values of evaling an instance by and instance i.e. instance 0 and instance 0
-                //outputVal -= 1.0;
+                outputVal -= 1.0;
 
 
 
@@ -133,11 +129,11 @@ public class KernelHerding extends SimpleBatchFilter {
             percentOfDataset = m_SampleSizePercent / 100;
             subsetSize = (instances.size() * percentOfDataset);
 
-            System.out.println(instances.toSummaryString());
+            /*System.out.println(instances.toSummaryString());
             System.out.println("Dataset size: " + instances.size());
             System.out.println("Percent of dataset: " + percentOfDataset);
             System.out.println("SubsetSize: " + subsetSize);
-            System.out.println("SubsetSize(int) : " + (int)subsetSize);
+            System.out.println("SubsetSize(int) : " + (int)subsetSize);*/
 
             //Getting initial value for subset array - FIRST INSTANCE in array
             newIstanceIndex.add(currentMaxIndex);
@@ -156,12 +152,13 @@ public class KernelHerding extends SimpleBatchFilter {
 
             //int count = 2; //Already add an instance before the loop is iterated over
             int count = 2; //Already add an instance before the loop is iterated over
-            boolean isInArr  = false;
+            ArrayList sortedMax = new ArrayList<Integer>();
             //Building subset with Kernel Herding Equation starting at subset -1 as already added first element
             while(count <= (int)subsetSize) {//Might not work when 8.88%
 
                 currentMaxIndex = 0;
                 currentMaxValue = 0;
+                sortedMax.clear();
 
                 //Going through each element in the array
                 for (int j = 0; j < similarityToOtherArray.length; j++) {
@@ -188,38 +185,53 @@ public class KernelHerding extends SimpleBatchFilter {
 
                         //Checking if it is the max value
                         if (currentSum > currentMaxValue) {
-
+                            sortedMax.add(j);
                             currentMaxValue = currentSum;
                             currentMaxIndex = j;//Setting index of the current max value
                         }
                     }
 
+                if(newIstanceIndex.contains(currentMaxIndex)){
+                    int c = sortedMax.size() -2;//Second best Index to choose from
+                    boolean foundOption = false;
+                    while(!foundOption){
+                        if(c <= 0){
+                            //Choose a random sample because all the indexs found seem to be in the list already
+                            Random rand = new Random();
+                            int newIndex = rand.nextInt(instances.size());;
 
-                            newIstanceIndex.add(currentMaxIndex); //Adding the max value to subset array
-                            newInstances.add(instances.instance(currentMaxIndex));
+                            while(newIstanceIndex.contains(newIndex)){
+                                newIndex = rand.nextInt(instances.size());
+                            }
+                            currentMaxIndex = newIndex;
+                            foundOption = true;
+                        }
+                        else if(!newIstanceIndex.contains(sortedMax.get(c))){
+                            currentMaxIndex = (Integer) sortedMax.get(c);
+                            foundOption = true;
+                        }
+                        c--;//Moving down the index array
+                    }
+                }
 
+
+
+
+                newIstanceIndex.add(currentMaxIndex); //Adding the max value to subset array
+                newInstances.add(instances.instance(currentMaxIndex));
 
                 count++;
 
 
-
-
-
-
-
-
-
-
-
             }
 
-            System.out.println("------------------------------");
+            /*System.out.println("------------------------------");
             System.out.println("Count: " + count);
             for (int i = 0; i < newInstances.size(); i++) {
                 System.out.println(newIstanceIndex.get(i));
             }
             System.out.println("size of new subset: " + newInstances.size());
-            System.out.println("------------------------------");
+            System.out.println("------------------------------");*/
 
 
 
