@@ -1,11 +1,13 @@
-Apr 15, 2021 2:12:38 PM com.github.fommil.netlib.ARPACK <clinit>
+Apr 15, 2021 10:20:45 PM com.github.fommil.netlib.ARPACK <clinit>
 WARNING: Failed to load implementation from: com.github.fommil.netlib.NativeSystemARPACK
-Apr 15, 2021 2:12:38 PM com.github.fommil.netlib.ARPACK <clinit>
+Apr 15, 2021 10:20:45 PM com.github.fommil.netlib.ARPACK <clinit>
 WARNING: Failed to load implementation from: com.github.fommil.netlib.NativeSystemARPACK
-Apr 15, 2021 2:12:38 PM com.github.fommil.netlib.ARPACK <clinit>
+Apr 15, 2021 10:20:45 PM com.github.fommil.netlib.ARPACK <clinit>
 WARNING: Failed to load implementation from: com.github.fommil.netlib.NativeRefARPACK
-Apr 15, 2021 2:12:38 PM com.github.fommil.netlib.ARPACK <clinit>
+Apr 15, 2021 10:20:45 PM com.github.fommil.netlib.ARPACK <clinit>
 WARNING: Failed to load implementation from: com.github.fommil.netlib.NativeRefARPACK
+Exception "java.lang.ClassNotFoundException: com/intellij/codeInsight/editorActions/FoldingData"while constructing DataFlavor for: application/x-java-jvm-local-objectref; class=com.intellij.codeInsight.editorActions.FoldingData
+Exception "java.lang.ClassNotFoundException: com/intellij/codeInsight/editorActions/FoldingData"while constructing DataFlavor for: application/x-java-jvm-local-objectref; class=com.intellij.codeInsight.editorActions.FoldingData
 Tester set to: weka.experiment.PairedCorrectedTTester
 Opened experiment:
 Runs from: 1 to: 10
@@ -19,7 +21,7 @@ Custom property values:
  2 weka.classifiers.meta.FilteredClassifier FilteredClassifier: No model built yet.
  3 weka.classifiers.functions.SMO SMO: No model built yet.
 ResultProducer: CrossValidationResultProducer: -X 10 -W weka.experiment.ClassifierSplitEvaluator --: <null Instances>
-ResultListener: weka.experiment.InstancesResultListener@792d825b
+ResultListener: weka.experiment.InstancesResultListener@10fea216
 
 Running experiment: Runs from: 1 to: 10
 Datasets: C:\Users\mason\Documents\COMPX521_data\balance-scale.normalized.arff C:\Users\mason\Documents\COMPX521_data\ecoli.normalized.arff C:\Users\mason\Documents\COMPX521_data\heart-statlog.normalized.arff C:\Users\mason\Documents\COMPX521_data\ionosphere.normalized.arff C:\Users\mason\Documents\COMPX521_data\iris.normalized.arff C:\Users\mason\Documents\COMPX521_data\pima-diabetes.normalized.arff C:\Users\mason\Documents\COMPX521_data\sonar.normalized.arff C:\Users\mason\Documents\COMPX521_data\spectrometer.normalized.arff C:\Users\mason\Documents\COMPX521_data\vehicle.normalized.arff C:\Users\mason\Documents\COMPX521_data\vowel.normalized.arff C:\Users\mason\Documents\COMPX521_data\wine.normalized.arff
@@ -32,7 +34,7 @@ Custom property values:
  2 weka.classifiers.meta.FilteredClassifier FilteredClassifier: No model built yet.
  3 weka.classifiers.functions.SMO SMO: No model built yet.
 ResultProducer: CrossValidationResultProducer: -X 10 -W weka.experiment.ClassifierSplitEvaluator --: <null Instances>
-ResultListener: weka.experiment.InstancesResultListener@792d825b
+ResultListener: weka.experiment.InstancesResultListener@10fea216
 
 Writing experiment copy
 Reading experiment copy
