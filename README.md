@@ -1,7 +1,7 @@
 # Kernel Herding Filter
 Implements Kernel Herding instance selection as a WEKA filter
 
-Implemented as part of a university assignment
+Implemented as part of a university assignment as a Intellij project
 
 Based on work from: 
 
